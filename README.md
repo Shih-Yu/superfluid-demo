@@ -1,3 +1,11 @@
+# Instructions
+
+1. Clone the project
+2. Change in Aave.js, lines: 10 and 11, write your own private key and address
+3. Package.json file already has all libraries needed
+4. Run `npm install`
+5. Run `npm start`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
