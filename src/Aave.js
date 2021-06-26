@@ -12,10 +12,11 @@ const owner = "YOUR ADDRESS" // TODO Address owner (probably organisation)
 const chainId = 42; // Kovan
 const spender = "0xcac717c3E6B3ad53FfFc924869C5EEb8B012F0a9" // Contract address
 const value = 1000000;
-const nonce = 1;
 const deadline = 1640930400000;
 
 async function permit() {
+
+  const nonce = await aTokenContract.methods._nonces(owner).call();
 
     const permitParams = {
       types: {
