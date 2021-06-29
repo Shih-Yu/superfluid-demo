@@ -8,14 +8,20 @@ var web3 = new Web3(Web3.givenProvider);
 
 async function superfluid() {
 
-  const testTokenAddress = "0x31948408B43D7732DC6ec5771f587c71f9b2ec91"
-  const testTokenContract = new web3.eth.Contract(testTokenAbi, testTokenAddress);
+  // const testTokenAddress = "0x31948408B43D7732DC6ec5771f587c71f9b2ec91"
+  // const testTokenContract = new web3.eth.Contract(testTokenAbi, testTokenAddress);
+  
 
   const sf = new SuperfluidSDK.Framework({
     ethers: new Web3Provider(window.ethereum),
     tokens: ["fUSDCx", "fUSDC"]
   });
   await sf.initialize()
+
+  // Moved testToken address and contract here and used the resolver in sf
+  const testTokenAddress = await sf.resolver.get("tokens.fUSDC");
+  const testTokenContract = new web3.eth.Contract(testTokenAbi, testTokenAddress);
+
 
   const walletAddress = await window.ethereum.request({
     method: 'eth_requestAccounts',
@@ -35,12 +41,11 @@ async function superfluid() {
 
 
   // Wrapping token
-  const usdcxWrapper = await sf.getERC20Wrapper(usdc);
+  const usdcxWrapper = await sf.getERC20Wrapper(testTokenContract);
   // Sending wrapped token
   usdcx = await sf.contracts.ISuperToken.at(usdcxWrapper.wrapperAddress);
+
   // Approve the transaction of fake token
-
-
   await testTokenContract.methods.approve(usdcx.address, "1" + "0".repeat(42)).send({ from: jorgeWallet });
   // convert to supertoken
   await usdcx.upgrade(web3.utils.toWei("0.01", "ether"), { from: jorgeWallet });
