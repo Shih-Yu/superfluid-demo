@@ -26,10 +26,23 @@ async function superfluid() {
     ]
   });
 
+  // Jorge's wallet
   const jorgeWallet = walletAddress[0];
-  const usdcx = sf.tokens.fUSDCx;
+  // Convert USDx into test tokens (fUSDx)
+  let usdcx = sf.tokens.fUSDCx;
+// Minting fake USDx
   await testTokenContract.methods.mint(jorgeWallet, web3.utils.toWei("0.01", "ether")).send({ from: jorgeWallet });
+
+
+  // Wrapping token
+  const usdcxWrapper = await sf.getERC20Wrapper(usdc);
+  // Sending wrapped token
+  usdcx = await sf.contracts.ISuperToken.at(usdcxWrapper.wrapperAddress);
+  // Approve the transaction of fake token
+
+
   await testTokenContract.methods.approve(usdcx.address, "1" + "0".repeat(42)).send({ from: jorgeWallet });
+  // convert to supertoken
   await usdcx.upgrade(web3.utils.toWei("0.01", "ether"), { from: jorgeWallet });
 
   const jorge = sf.user({
