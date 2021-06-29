@@ -30,9 +30,13 @@ module.exports = {
     //    url: process.env.INFURA_URL,
     //    accounts: [`0x${process.env.ACCOUNT_KEY}`],
     //  },
-    gorli: {
-      url: process.env.INFURA_URL_Gorli,
-      accounts: [`0x${process.env.ACCOUNT_KEY2}`],
-    },
+    // gorli: {
+    //   url: process.env.INFURA_URL_G,
+    //   accounts: [`0x${process.env.ACCOUNT_KEY2}`],
+    // },
+    kovan: {
+        url: process.env.INFURA_URL,
+        accounts: [`0x${process.env.ACCOUNT_KEY}`],
+      },
   },
 };
